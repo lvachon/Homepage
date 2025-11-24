@@ -2,10 +2,11 @@
 	background:#00000080;
 	color:#CCCCCC;
 	border-radius:1cm;
-	width:50%;
+	width:75%;
 	margin:auto;
 	z-index:2;
 	position:relative;
+	margin-bottom:2cm;
 }
 
 .subsection a{

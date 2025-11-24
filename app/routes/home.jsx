@@ -16,68 +16,79 @@ export default ()=> {
   const [backgroundIndex,setBackgroundIndex] = useState(0);
   const [backgrounds, setBackgrounds] = useState([]);
   const timeout = useRef(null);
+  const [bskyImages, setBskyImages] = useState([]);
+  const codeElem = useRef();
 
-const codeElem = useRef();
-
-function changeBackground(){
-  if(!backgrounds.length){return;}
-  let bg=null;
-  let pbg=null;
-  if(!(backgroundIndex%2)){
-    bg = backgrounds[backgroundIndex];
-    pbg = backgrounds[(backgroundIndex+1)%backgrounds.length];
-    console.log({bg,pbg,backgroundIndex,backgrounds});
-    pbody.style.backgroundImage = pbg;
-    pbody.style.animation = 'fadeIn 1s 1';
-    setTimeout(()=>{
-      mbody.backgroundImage=bg;
-      pbody.style.opacity = '1';
-    },900);
-  }else{
-    pbg = backgrounds[backgroundIndex]
-    bg = backgrounds[(backgroundIndex+1)%backgrounds.length]
-    console.log({bg,pbg});
-    mbody.style.backgroundImage = bg;
-    pbody.style.animation = 'fadeOut 1s 1';
-    setTimeout(()=>{
-      pbody.backgroundImage=pbg;
-      pbody.style.opacity = '0';
-    },900);
+  function changeBackground(){
+    if(!backgrounds.length){return;}
+    let bg=null;
+    let pbg=null;
+    if(!(backgroundIndex%2)){
+      bg = backgrounds[backgroundIndex];
+      pbg = backgrounds[(backgroundIndex+1)%backgrounds.length];
+      console.log({bg,pbg,backgroundIndex,backgrounds});
+      pbody.style.backgroundImage = pbg;
+      pbody.style.animation = 'fadeIn 1s 1';
+      setTimeout(()=>{
+        mbody.backgroundImage=bg;
+        pbody.style.opacity = '1';
+      },900);
+    }else{
+      pbg = backgrounds[backgroundIndex]
+      bg = backgrounds[(backgroundIndex+1)%backgrounds.length]
+      console.log({bg,pbg});
+      mbody.style.backgroundImage = bg;
+      pbody.style.animation = 'fadeOut 1s 1';
+      setTimeout(()=>{
+        pbody.backgroundImage=pbg;
+        pbody.style.opacity = '0';
+      },900);
+    }
+    setBackgroundIndex((backgroundIndex)=>(backgroundIndex+1)%backgrounds.length);
+    
   }
-  setBackgroundIndex((backgroundIndex)=>(backgroundIndex+1)%backgrounds.length);
-  
-}
-useEffect(()=>{
-  if(timeout.current){clearTimeout(timeout.current);}
-  timeout.current = setTimeout(changeBackground,10000);
-},[backgroundIndex]);
+  useEffect(()=>{
+    if(timeout.current){clearTimeout(timeout.current);}
+    timeout.current = setTimeout(changeBackground,10000);
+  },[backgroundIndex]);
 
-useEffect(()=>{
-    let sbgs = [
-      "url('/backgrounds/PulpitRock.jpg')",
-      "url('/backgrounds/ALMilkyway.jpg')",
-      "url('/backgrounds/Swamp.jpg')",
-      "url('/backgrounds/Swamp2.jpg')",
-      "url('/backgrounds/WachusettSpillway.jpg')",
-      "url('/backgrounds/Trees.jpg')",
-      "url('/backgrounds/Waves.jpg')",
-      "url('/backgrounds/TauntonRiver.jpg')",
-      "url('/backgrounds/WinterSunset.jpg')",
-      "url('/backgrounds/CharlesSunset.jpg')",
-      "url('/backgrounds/WinterComm.jpg')",
-      "url('/backgrounds/CharlesSunset2.jpg')",
-      "url('/backgrounds/HolyokeMt.jpg')",
-      "url('/backgrounds/Sunset.jpg')",
-      "url('/backgrounds/Beach.jpg')",
-      "url('/backgrounds/Clouds.jpg')",
-      "url('/backgrounds/AssonetBay.jpg')",
-      "url('/backgrounds/Seals.jpg')",
+  useEffect(()=>{
+      let sbgs = [
+        "url('/backgrounds/PulpitRock.jpg')",
+        "url('/backgrounds/ALMilkyway.jpg')",
+        "url('/backgrounds/Swamp.jpg')",
+        "url('/backgrounds/Swamp2.jpg')",
+        "url('/backgrounds/WachusettSpillway.jpg')",
+        "url('/backgrounds/Trees.jpg')",
+        "url('/backgrounds/Waves.jpg')",
+        "url('/backgrounds/TauntonRiver.jpg')",
+        "url('/backgrounds/WinterSunset.jpg')",
+        "url('/backgrounds/CharlesSunset.jpg')",
+        "url('/backgrounds/WinterComm.jpg')",
+        "url('/backgrounds/CharlesSunset2.jpg')",
+        "url('/backgrounds/HolyokeMt.jpg')",
+        "url('/backgrounds/Sunset.jpg')",
+        "url('/backgrounds/Beach.jpg')",
+        "url('/backgrounds/Clouds.jpg')",
+        "url('/backgrounds/AssonetBay.jpg')",
+        "url('/backgrounds/Seals.jpg')",
 
-    ];
-    sbgs.sort((a,b)=>Math.random()-0.5);
-    setBackgrounds(sbgs);
-},[]);
-useEffect(changeBackground,[backgrounds])
+      ];
+      sbgs.sort((a,b)=>Math.random()-0.5);
+      setBackgrounds(sbgs);
+      fetch("https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=lvachon.bsky.social&filter=posts_with_media&limit=12").then(response=>response.json()).then(bskyData=>{
+        console.log({bskyData});
+        const bskyImages = bskyData.feed.reduce((accImages,{post:{embed,indexedAt}})=>{
+          accImages=[...accImages,...embed.images.map((img)=>({...img,indexedAt}))];
+          return accImages;
+        },[]);
+        console.log({bskyImages});
+        setBskyImages(bskyImages);
+      });
+  },[]);
+  useEffect(changeBackground,[backgrounds])
+
+
 
   return (
   <>
@@ -97,13 +108,13 @@ useEffect(changeBackground,[backgrounds])
             <DoubleBlend 
               bottomClass={'category'}
               topClass={'categoryText'}
-              onClick={() => window.location.hash='images'}>
+              onClick={() => {window.scrollTo(0,images.offsetTop);}}>
               Images
             </DoubleBlend>
             <DoubleBlend
               bottomClass={'category'}
               topClass={'categoryText'}
-              onClick={() => {window.scrollTo(0,code.parentElement.offsetTop);}}>
+              onClick={() => {window.scrollTo(0,code.offsetTop);}}>
               Code
             </DoubleBlend>
             <DoubleBlend 
@@ -122,7 +133,7 @@ useEffect(changeBackground,[backgrounds])
     <div class={'sections'}>
       <Subsection 
         title={"Code"}
-          subtitle={"Some side projects I've done over the years."}
+        subtitle={"Some side projects I've done over the years."}
         id={"code"}
         anchorId={"code"}
       >
@@ -217,6 +228,29 @@ useEffect(changeBackground,[backgrounds])
         />
 
 
+      </Subsection>
+      <Subsection 
+        title={"Images"}
+        subtitle={"Some nice pictures and videos I've taken"}
+        id={"images"}
+        anchorId={"images"}
+      >
+        {bskyImages.map(({thumb,fullsize,indexedAt},index)=>{
+          const d = new Date(Date.parse(indexedAt));
+          if(index<12){ 
+            return(
+              <FloatingBox
+                imgSrc={thumb}
+                link={fullsize}
+                title={d.toLocaleString("en-US",{"year":"numeric","month":"long",day:"numeric",hour:undefined,minute:undefined,second:undefined})}
+                lang="Photo"
+                srcLink={"https://bsky.app/profile/lvachon.bsky.social"}
+                srcFavicon={"https://lucvachon.com/bskyicon.png"}
+                srcAlt={"Bluesky"}
+              />
+            )
+          }
+        })}
       </Subsection>
     </div>
     
