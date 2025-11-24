@@ -1,0 +1,24 @@
+.dblBlendBottom {
+	padding:0px;
+	width:100%;
+	height:100%;
+	margin:0px;
+	position:absolute;
+	top:0px;
+	left:0px;
+}
+
+.dblBlendTop {
+	width:100%;
+	height:100%;
+	margin:0px;
+	
+	top:0px;
+	left:0px;
+}
+
+.dblBlendContainer {
+	cursor:pointer;
+	position:relative;
+	margin:1cm;
+}

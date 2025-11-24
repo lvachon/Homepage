@@ -1,0 +1,144 @@
+@keyframes fadeIn {
+	0%   { opacity: 0; }
+	100% { opacity: 1; }
+}
+@keyframes fadeOut {
+	0%   { opacity: 1; }
+	100% { opacity: 0; }
+}
+body{
+	
+	font-family:sans-serif;
+	padding:0px;
+	margin:0px;
+}
+
+.fadeOutElem {
+	animation:fadeOut 1s 1;
+	animation-fill-mode: forwards;
+}
+.fadeInElem {
+	animation:fadeIn 1s 1;
+	animation-fill-mode: forwards;
+}
+
+
+
+.bgClass {
+	background-color:#BBBBBB;
+	background-image: inherit;
+	background-size: cover;
+	background-blend-mode: multiply;
+	background-position: center;
+	width:100%;
+	height:100%;
+	position:fixed;
+	z-index:0;
+}
+.pbody {
+	position:fixed;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	opacity:0;
+	z-index:0;
+}
+.categoryContainerV {
+	display:flex;
+	align-items: center;
+	flex-wrap: wrap;
+	margin:0px;
+	height:100vh;
+	width:100%;
+	z-index:1;
+}
+.categoryContainerH {
+	display:flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	margin:0px;
+	width:100%;
+}
+.category {
+	cursor:pointer;
+	border-radius:0.5cm;
+	background:#222222;
+	min-width:5cm;
+	mix-blend-mode: overlay;
+	filter:blur(0.15cm);
+	font-size:2cm;
+	font-family:sans-serif;
+	color:#EEEEEE;
+	font-weight:bold;
+	justify-content:center;
+	display:flex;
+	align-items:center;
+}
+
+.categoryText {
+	mix-blend-mode: color-dodge;
+	padding:1.5cm;
+	font-size:2cm;
+	font-family:sans-serif;
+	color:#AAAAAA;
+	font-weight:bold;
+	justify-content:center;
+	display:flex;
+	align-items:center;
+}
+.watermark {
+	position:fixed;
+	z-index:1;
+	left:4px;
+	top:4px;
+	background-color:#FFFFFF80;
+	padding:4px;
+	border-radius:2px;
+	margin:2px;
+}
+.watermark a{
+	color:#00000080;
+	z-index:1;
+}
+.titleContainer {
+	top:calc(15vh - 2.5cm);
+	text-align:center;
+	position:absolute;
+	margin:0px;
+
+}
+
+.titleTop {
+	color:#666;
+	font-size:5cm;
+	mix-blend-mode: color-dodge;
+	filter:brightness(2);
+}
+.titleBottom {
+	color:#888888;
+	font-size:5cm;
+	mix-blend-mode: multiply;
+	background:#FFFFFF;
+	border-radius:2cm;
+	filter:blur(0.25cm);
+}
+
+
+
+.mainButtons {
+	display:flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	margin:0px;
+	width:100%;
+	position:relative;
+	
+}
+
+@media screen and (max-width:1050px) {
+	body {zoom:50%}
+	.mainButtons { top:66vh; }
+	.sections {position:relative;top:100vh;}
+}
+
