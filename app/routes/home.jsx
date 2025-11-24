@@ -12,7 +12,7 @@ export function meta({}) {
 }
 
 
-export default function Home() {
+export default ()=> {
   const [backgroundIndex,setBackgroundIndex] = useState(0);
   const [backgrounds, setBackgrounds] = useState([]);
   const timeout = useRef(null);
