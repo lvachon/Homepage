@@ -17,6 +17,7 @@ export default ()=> {
   const [backgrounds, setBackgrounds] = useState([]);
   const timeout = useRef(null);
   const [bskyImages, setBskyImages] = useState([]);
+  const [ytVideos, setYtVideos] = useState([]);
   const codeElem = useRef();
 
   function changeBackground(){
@@ -84,6 +85,16 @@ export default ()=> {
         },[]);
         console.log({bskyImages});
         setBskyImages(bskyImages);
+      });
+
+      fetch("https://www.googleapis.com/youtube/v3/playlistItems?playlistId=UUEv5x2YpZZyEv7s6minudAw&key=AIzaSyAYP9we_WmFGhoqXzSbhUtzporpWFBG3b8&part=contentDetails,snippet&maxResults=12").then(response=>response.json()).then(ytData=>{
+        console.log({ytData});
+        const ytVids = ytData.items.reduce((accVideos,{contentDetails:{videoId},snippet:{title,thumbnails:{high:{url}}}})=>{
+          accVideos=[...accVideos,{videoId,title,url}];
+          return accVideos;
+        },[]);
+        console.log({ytVids});
+        setYtVideos(ytVids);
       });
   },[]);
   useEffect(changeBackground,[backgrounds])
@@ -247,6 +258,22 @@ export default ()=> {
                 srcLink={"https://bsky.app/profile/lvachon.bsky.social"}
                 srcFavicon={"https://lucvachon.com/bskyicon.png"}
                 srcAlt={"Bluesky"}
+              />
+            )
+          }
+        })}
+
+        {ytVideos.map(({title,url,videoId},index)=>{
+          if(index<12){ 
+            return(
+              <FloatingBox
+                imgSrc={url}
+                link={`https://www.youtube.com/watch?v=${videoId}`}
+                title={title}
+                lang="Video"
+                srcLink={"https://www.youtube.com/@lvachon"}
+                srcFavicon={"https://youtube.com/favicon.ico"}
+                srcAlt={"YouTube"}
               />
             )
           }
