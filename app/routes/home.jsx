@@ -119,19 +119,19 @@ export default ()=> {
             <DoubleBlend 
               bottomClass={'category'}
               topClass={'categoryText'}
-              onClick={() => {window.scrollTo(0,images.offsetTop);}}>
+              onClick={() => {images.scrollIntoView()}}>
               Images
             </DoubleBlend>
             <DoubleBlend
               bottomClass={'category'}
               topClass={'categoryText'}
-              onClick={() => {window.scrollTo(0,code.offsetTop);}}>
+              onClick={() => {code.scrollIntoView()}}>
               Code
             </DoubleBlend>
             <DoubleBlend 
               bottomClass={'category'}
               topClass={'categoryText'}
-              onClick={() => window.location.hash='machines'}>
+              onClick={() => {machines.scrollIntoView()}}>
               Machines
             </DoubleBlend>
           </div>
@@ -240,6 +240,7 @@ export default ()=> {
 
 
       </Subsection>
+
       <Subsection 
         title={"Images"}
         subtitle={"Some nice pictures and videos I've taken"}
@@ -279,6 +280,16 @@ export default ()=> {
           }
         })}
       </Subsection>
+
+      <Subsection 
+        title={"Machines"}
+        subtitle={"Some machines I've made"}
+        id={"machines"}
+        anchorId={"machines"}
+      >
+        <marquee behavior="alternate" scrollamount="12" style={{'font-size':'1cm'}}>🚧🚧Under construction🚧🚧</marquee>
+      </Subsection>
+      <div class={"visitor"}>You are visitor #<img src='https://lucvachon.com/viewcounter.php' alt="old school visitor counter here"/></div>
     </div>
     
   </>
